@@ -1,0 +1,107 @@
+# qila — urban cycling study
+
+A phone-first, tap-only survey (Danish + English) for Danish city cyclists, with:
+
+- **Hosting:** GitHub Pages. Every push to `main` deploys the site automatically.
+- **Data:** each response lands as a row in a **Google Sheet** (free, no server).
+- **QR codes:** branded qila QR codes are generated for the live URL on every deploy.
+- **Waitlist:** the end screen posts the email to **your own waitlist API** (or links out to your site).
+
+```
+site/                 the website (plain HTML/CSS/JS, no build step)
+  index.html          the survey
+  qr.html             QR maker: any source tag, download PNG/SVG
+  assets/config.js    ← the only file you normally edit (endpoints)
+  assets/questions.js ← question wording (EN + DA) and answer codes
+backend/Code.gs       Google Apps Script that writes to the Sheet
+backend/README.md     5-minute Sheet setup
+scripts/              QR + codebook generators
+qr-sources.json       the source tags that get a pre-made QR code
+CODEBOOK.md           every sheet column and answer code with its label
+```
+
+---
+
+## Go live in 4 steps
+
+### 1 · Put it on GitHub
+1. Create a new repository on GitHub (private is fine; Pages works on paid plans for private repos, otherwise make it public). Suggested name: `survey`.
+2. Push this folder to it:
+   ```bash
+   git remote add origin https://github.com/<owner>/<repo>.git
+   git push -u origin main
+   ```
+3. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+4. Open the **Actions** tab. When the "Deploy survey" run is green, the survey is live at
+   `https://<owner>.github.io/<repo>/`.
+
+> **Own domain** (e.g. `survey.qila.dk`): add it under Settings → Pages → Custom domain, then add a repository
+> variable **Settings → Secrets and variables → Actions → Variables → `SURVEY_URL`** = `https://survey.qila.dk/`
+> so the QR codes point to the domain instead of github.io. Re-run the workflow.
+
+### 2 · Connect the Google Sheet
+Follow [`backend/README.md`](backend/README.md) (5 minutes), then paste the Web app URL into
+`site/assets/config.js`:
+```js
+SHEETS_ENDPOINT: 'https://script.google.com/macros/s/XXXX/exec',
+```
+Until this is set the survey runs in **demo mode**: nothing is sent, answers are kept in the browser only.
+
+### 3 · Connect the waitlist
+In `site/assets/config.js` → `WAITLIST`:
+
+| Setting | What to put |
+|---|---|
+| `endpoint` | The URL your website's waitlist form posts to, e.g. `https://qila.dk/api/waitlist` |
+| `buildBody` | Shape the JSON to match what that API expects (field names). Default sends `{ email, consent, source: 'survey', language }` |
+| `headers` | Add an API key header here only if it's a **public** key — this file is visible to everyone |
+| `url` | Fallback page opened when `endpoint` is empty (link-out mode). **Replace the placeholder with your real waitlist page.** |
+
+Your API must allow the survey's origin (CORS), e.g. `Access-Control-Allow-Origin: https://<owner>.github.io`
+and allow `POST` + `Content-Type`. Any 2xx response shows "You're on the list".
+
+**Privacy:** the waitlist only ever receives the email. The survey's `response_id` is never sent, so emails can't be matched to answers. Under-16s don't see the email form.
+
+### 4 · Print the QR codes
+After each deploy:
+- **`/qr/`**: ready-made codes for every tag in `qr-sources.json` (posters per city, campus, sticker, Instagram). Branded SVG for design work, plain PNG (2048 px) for fast printing.
+- **`/qr.html`**: make a code for any new tag on the spot.
+
+Each code carries `?src=<tag>`, which is saved with every answer, so you can see which poster or place responses came from. To add pre-made tags permanently, edit `qr-sources.json` and push.
+
+Print at least 3 × 3 cm and test-scan every printed code. All codes were decoded in testing at 160 px, logo included (error correction level H).
+
+---
+
+## Editing questions
+Edit `site/assets/questions.js`. Wording in `en` / `da` can change freely.
+**Keep `field` and option `id`s stable once responses are coming in**: they are the sheet's column names and values.
+New fields get a new column automatically. Bump `VERSION` in `config.js` when you change the questionnaire, so answers can be told apart.
+Then run `npm run codebook` to refresh `CODEBOOK.md`.
+
+Useful links while testing:
+- `?lang=da` / `?lang=en` forces a language (otherwise it follows the phone).
+- `?src=test` tags your own test runs so you can filter them out of the sheet.
+
+## Run locally
+```bash
+npm install
+npm run serve          # http://localhost:8080
+npm run qr -- https://<owner>.github.io/<repo>/   # generate site/qr/ locally
+```
+
+## What's been tested
+- The Yes, Sometimes and No branches end to end on iPhone-size (390×844) and small (375×667) screens, in Danish and English. No console errors.
+- Payloads reach the Sheet endpoint, and waitlist posts carry no survey ID.
+- `Code.gs` against a mock of Google Sheets:
+  - Duplicates are ignored, and a partial row is replaced by the complete one.
+  - Bots and bad IDs are rejected.
+  - A formula typed as free text is stored as plain text.
+  - Under-16s are excluded from the Summary.
+- Every generated QR code decodes to the right URL.
+
+## Privacy (GDPR) notes
+- No cookies, no analytics, no third-party requests: fonts are self-hosted.
+- Survey answers are anonymous: no name, email or IP is stored in the Sheet.
+- Emails go only to your waitlist system, with explicit consent (checkbox).
+- Consider adding a link to your privacy policy in `questions.js` (intro `fine` text).

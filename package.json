@@ -1,0 +1,20 @@
+{
+  "name": "qila-survey",
+  "version": "1.0.0",
+  "description": "qila urban cycling study \u2014 mobile survey",
+  "scripts": {
+    "serve": "python3 -m http.server 8080 --directory site",
+    "qr": "node scripts/make-qr.mjs",
+    "codebook": "node scripts/codebook.mjs"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "qrcode-generator": "^2.0.4"
+  },
+  "private": true,
+  "devDependencies": {
+    "@fontsource/archivo": "^5",
+    "@fontsource/geist-mono": "^5"
+  }
+}

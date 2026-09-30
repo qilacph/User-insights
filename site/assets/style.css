@@ -211,3 +211,6 @@ button { font: inherit; color: inherit; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 @media (min-height: 780px) { .question { font-size: 31px; line-height: 33px; } }
+
+/* waitlist form open on a short phone: drop the thank-you paragraph so the form fits */
+@media (max-height: 760px) { .joining .screen[data-screen="end"] .lead { display: none; } }

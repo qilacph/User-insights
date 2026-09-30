@@ -5,7 +5,7 @@ A phone-first, tap-only survey (Danish + English) for Danish city cyclists, with
 - **Hosting:** GitHub Pages. Every push to `main` deploys the site automatically.
 - **Data:** each response lands as a row in a **Google Sheet** (free, no server).
 - **QR codes:** branded qila QR codes are generated for the live URL on every deploy.
-- **Waitlist:** the end screen posts the email to **your own waitlist API** (or links out to your site).
+- **Waitlist:** the end screen signs people up to the existing qila waitlist script.
 
 ```
 site/                 the website (plain HTML/CSS/JS, no build step)
@@ -47,20 +47,22 @@ SHEETS_ENDPOINT: 'https://script.google.com/macros/s/XXXX/exec',
 ```
 Until this is set the survey runs in **demo mode**: nothing is sent, answers are kept in the browser only.
 
-### 3 · Connect the waitlist
-In `site/assets/config.js` → `WAITLIST`:
+### 3 · Waitlist (already connected)
+The end screen posts to the same waitlist Google Apps Script the qila app uses (`WAITLIST.endpoint` in
+`site/assets/config.js`). It sends form fields, so no CORS setup is needed:
 
-| Setting | What to put |
+| Field | Value |
 |---|---|
-| `endpoint` | The URL your website's waitlist form posts to, e.g. `https://qila.dk/api/waitlist` |
-| `buildBody` | Shape the JSON to match what that API expects (field names). Default sends `{ email, consent, source: 'survey', language }` |
-| `headers` | Add an API key header here only if it's a **public** key — this file is visible to everyone |
-| `url` | Fallback page opened when `endpoint` is empty (link-out mode). **Replace the placeholder with your real waitlist page.** |
+| `name` | First name (optional in the form, may be empty) |
+| `email` | Email (validated in the browser) |
+| `source` | `survey` (the app sends `qila-app`, so you can tell sign-ups apart) |
+| `language` | `da` or `en` |
+| `consent` | `yes` (the marketing-consent box must be ticked to join) |
 
-Your API must allow the survey's origin (CORS), e.g. `Access-Control-Allow-Origin: https://<owner>.github.io`
-and allow `POST` + `Content-Type`. Any 2xx response shows "You're on the list".
+The script's reply `{ ok: true }` shows "You're on the list"; anything else shows "Something went wrong, try again".
+If the waitlist script ignores `language` and `consent`, nothing breaks; add columns for them there if you want to keep them.
 
-**Privacy:** the waitlist only ever receives the email. The survey's `response_id` is never sent, so emails can't be matched to answers. Under-16s don't see the email form.
+**Privacy:** the waitlist only ever receives name and email. The survey's `response_id` is never sent, so sign-ups can't be matched to answers. Under-16s don't see the form.
 
 ### 4 · Print the QR codes
 After each deploy:
@@ -92,7 +94,7 @@ npm run qr -- https://<owner>.github.io/<repo>/   # generate site/qr/ locally
 
 ## What's been tested
 - The Yes, Sometimes and No branches end to end on iPhone-size (390×844) and small (375×667) screens, in Danish and English. No console errors.
-- Payloads reach the Sheet endpoint, and waitlist posts carry no survey ID.
+- Payloads reach the Sheet endpoint. Waitlist posts carry no survey ID, and the form shows an error when the waitlist script says `ok: false`. The waitlist was tested against a mock, so no test sign-ups went onto the real list.
 - `Code.gs` against a mock of Google Sheets:
   - Duplicates are ignored, and a partial row is replaced by the complete one.
   - Bots and bad IDs are rejected.

@@ -293,6 +293,7 @@ window.QILA_SCREENS = [
     ask:    { en: 'Want to be first to see it?', da: 'Vil du være blandt de første til at se det?' },
     join:   { en: 'Join the waitlist', da: 'Skriv dig på ventelisten' },
     finish: { en: 'Finish without joining', da: 'Afslut uden at tilmelde dig' },
+    name:   { en: 'First name', da: 'Fornavn' },
     email:  { en: 'Your email', da: 'Din e-mail' },
     consent:{ en: 'Yes, qila may email me about the launch. I can unsubscribe any time.', da: 'Ja, qila må sende mig e-mails om lanceringen. Jeg kan afmelde mig når som helst.' },
     submit: { en: 'Join', da: 'Tilmeld' },

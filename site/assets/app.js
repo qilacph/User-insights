@@ -414,6 +414,9 @@
 
     const form = el('div', 'wl');
     form.hidden = true;
+    const name = el('input', 'field');
+    Object.assign(name, { type: 'text', autocomplete: 'given-name', autocapitalize: 'words', placeholder: t(s.name), maxLength: 60 });
+    name.setAttribute('aria-label', t(s.name));
     const email = el('input', 'field');
     Object.assign(email, { type: 'email', inputMode: 'email', autocomplete: 'email', placeholder: t(s.email), required: true });
     email.setAttribute('aria-label', t(s.email));
@@ -429,13 +432,13 @@
     submit.append(el('span', null, t(s.submit)), el('span', null, '→'));
     const msg = el('p', 'msg');
     msg.setAttribute('role', 'status');
-    form.append(email, hp, lab, submit, msg);
+    form.append(name, email, hp, lab, submit, msg);
 
     const note = el('p', 'fine', t(s.note));
 
     join.addEventListener('click', () => {
       if (!W.endpoint) { window.open(W.url, '_blank', 'noopener'); return; }
-      box.hidden = true; form.hidden = false; email.focus();
+      box.hidden = true; form.hidden = false; document.body.classList.add('joining'); name.focus();
     });
     finish.addEventListener('click', () => { footer.textContent = ''; footer.append(el('p', 'msg ok', t(s.done)), micro()); });
     submit.addEventListener('click', async () => {
@@ -445,8 +448,16 @@
       if (hp.value) { form.replaceWith(el('p', 'msg ok', t(s.ok))); return; }
       submit.disabled = true; msg.textContent = '';
       try {
-        const r = await fetch(W.endpoint, { method: W.method || 'POST', headers: W.headers || { 'Content-Type': 'application/json' }, body: JSON.stringify(W.buildBody({ email: addr, consent: true, lang: state.lang })) });
+        const body = W.buildBody({ name: name.value.trim().slice(0, 60), email: addr, consent: true, lang: state.lang });
+        const isForm = body instanceof URLSearchParams; // form fields → simple request, no CORS preflight
+        const r = await fetch(W.endpoint, {
+          method: W.method || 'POST',
+          headers: isForm ? undefined : (W.headers || { 'Content-Type': 'application/json' }),
+          body: isForm ? body : JSON.stringify(body),
+        });
         if (!r.ok) throw new Error(r.status);
+        const reply = await r.json().catch(() => ({}));
+        if (reply && reply.ok === false) throw new Error(reply.error || 'rejected');
         form.replaceWith(el('p', 'msg ok', t(s.ok)));
         note.remove();
       } catch (e) {

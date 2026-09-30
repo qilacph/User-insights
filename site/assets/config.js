@@ -12,7 +12,7 @@
      The survey's response id is NEVER sent to the waitlist, so answers stay anonymous.
 */
 window.QILA_CONFIG = {
-  SHEETS_ENDPOINT: '',
+  SHEETS_ENDPOINT: 'https://script.google.com/macros/s/AKfycbydfB0tImiM_0ytoisWVDg1vLjD5_pGQndhBInaVpcU3rix4Koq1-OzJMqQrI3uHFjT/exec',
 
   WAITLIST: {
     endpoint: 'https://script.google.com/macros/s/AKfycbxAcq-Ycbhbd4L5HrCWFEM-uBC1YUgQwyA_xtZJR6C-0r-KcniA-NCNfxcmknIBtavGfg/exec',

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'">
+  <title>qila — QR codes</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/qr.css">
+</head>
+<body class="qr-page">
+  <main class="qr-wrap">
+    <p class="kicker">qila / tools</p>
+    <h1 class="qr-title">QR codes for the survey</h1>
+    <p class="lead">Make one code per place you put it up. The <b>source</b> tag is saved with every answer, so you can see which poster or campus the responses came from.</p>
+
+    <div class="qr-form">
+      <label>Survey link
+        <input id="base" class="field" type="url" spellcheck="false">
+      </label>
+      <label>Source tag <span class="mono">letters, numbers, - and _</span>
+        <input id="src" class="field" type="text" value="qr-general" spellcheck="false" autocomplete="off">
+      </label>
+      <div class="presets" id="presets"></div>
+      <label class="check"><input id="logo" type="checkbox" checked><span>qila logo in the middle</span></label>
+    </div>
+
+    <div class="qr-out">
+      <div class="qr-img" id="out"></div>
+      <p class="mono qr-url" id="url"></p>
+      <div class="qr-actions">
+        <button class="btn btn-primary" id="png" type="button">Download PNG</button>
+        <button class="btn btn-text" id="svg" type="button">Download SVG</button>
+      </div>
+      <p class="fine">Print at least 3 × 3 cm. Test-scan every printed code before putting it up.</p>
+    </div>
+  </main>
+  <script src="assets/vendor/qrcode.js"></script>
+  <script src="assets/qr-art.js"></script>
+  <script src="assets/qr-page.js"></script>
+</body>
+</html>

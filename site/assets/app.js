@@ -130,6 +130,7 @@
       if (current() !== s.id) return;
       const scr = main.querySelector('.screen');
       if (scr) scr.classList.add('leave');
+      footer.classList.add('leave');
       setTimeout(() => { state.gliding = null; if (current() === s.id) next(); }, 200);
     }, 300);
   }
@@ -189,6 +190,8 @@
     main.appendChild(wrap);
     main.scrollTop = 0;
     renderFooter(s);
+    footer.classList.remove('leave', 'swap');
+    if (dir) { void footer.offsetWidth; footer.classList.add('swap'); }
     const h = wrap.querySelector('h1');
     if (h && dir) h.focus({ preventScroll: true });
     if (s.type === 'end' && !state.submitted) submitSurvey();
@@ -440,8 +443,14 @@
 
   // Tap feedback: the button flashes white before the screen changes.
   function press(btn, then) {
-    btn.classList.add('pressed');
-    setTimeout(then, 200);
+    if (btn.classList.contains('pressed')) return;      // ignore double taps
+    btn.classList.add('pressed');                       // eases to white
+    setTimeout(() => {                                   // then the screen and footer fade out together
+      const scr = main.querySelector('.screen');
+      if (scr) scr.classList.add('leave');
+      footer.classList.add('leave');
+      setTimeout(then, 200);
+    }, 240);
   }
 
   function micro() {

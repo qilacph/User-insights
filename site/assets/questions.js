@@ -186,7 +186,7 @@ window.QILA_SCREENS = [
     q: { en: 'Which brands do you identify with?', da: 'Hvilke brands identificerer du dig med?' },
     hint: { en: 'Any brands, not helmets. Ones you think are doing really well and that fit your style: clothes, shoes, gear, tech.',
             da: 'Alle slags brands, ikke hjelme. Nogle, du synes gør det rigtig godt, og som passer til din stil: tøj, sko, udstyr, tech.' },
-    groups: [ { field: 'brand', kind: 'text', count: 3, optional: true, placeholder: { en: 'Any brand you like', da: 'Et brand, du kan lide' } } ] },
+    groups: [ { field: 'brand', kind: 'text', count: 3, optional: true, placeholder: { en: 'e.g. Patagonia, Apple', da: 'f.eks. Patagonia, Apple' }, placeholderMore: { en: 'Another brand', da: 'Et brand mere' } } ] },
   { id: 'q09', type: 'chips', step: 9, section: { en: 'About you', da: 'Om dig' }, kicker: ALL_K,
     q: { en: 'A little about you', da: 'Lidt om dig' },
     groups: [

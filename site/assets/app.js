@@ -243,7 +243,7 @@
         b.setAttribute('aria-checked', String(state.answers[g.field] === o.id));
         const txt = el('span');
         txt.append(el('span', 'tile-title', t(o)), el('span', 'tile-sub', t(o.sub)));
-        b.append(txt, el('span', 'tile-arrow', '→'));
+        b.append(txt);
         b.addEventListener('click', () => {
           const prev = state.answers[g.field];
           state.answers[g.field] = o.id;
@@ -340,8 +340,8 @@
     const addField = (focus) => {
       const i = list.children.length;
       const inp = el('input', 'field');
-      Object.assign(inp, { type: 'text', maxLength: 40, autocomplete: 'off', placeholder: t(g.placeholder), enterKeyHint: 'done' });
-      inp.setAttribute('aria-label', `${t(g.placeholder)} ${i + 1}`);
+      Object.assign(inp, { type: 'text', maxLength: 40, autocomplete: 'off', placeholder: t(i === 0 ? g.placeholder : g.placeholderMore || g.placeholder), enterKeyHint: 'done' });
+      inp.setAttribute('aria-label', `${t(g.label || { en: 'Brand', da: 'Brand' })} ${i + 1}`);
       inp.value = vals[i] || '';
       inp.addEventListener('input', () => { vals[i] = inp.value; renderFooter(s); });
       inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); } });
@@ -438,6 +438,12 @@
     renderFooter(s);
   }
 
+  // Tap feedback: the button flashes white before the screen changes.
+  function press(btn, then) {
+    btn.classList.add('pressed');
+    setTimeout(then, 200);
+  }
+
   function micro() {
     const m = el('div', 'micro');
     m.append(el('span', null, t('microLeft')), el('span', null, t('microRight')));
@@ -450,7 +456,7 @@
       const start = el('button', 'btn btn-primary btn-wide');
       start.type = 'button';
       start.append(el('span', null, t(s.cta)), el('span', null, '→'));
-      start.addEventListener('click', next);
+      start.addEventListener('click', () => press(start, next));
       footer.append(start, el('p', 'fine', t(s.fine)), micro());
       return;
     }
@@ -479,7 +485,7 @@
       nx.addEventListener('click', () => {
         const a = document.activeElement;
         if (state.editing && a && a.tagName === 'INPUT') a.blur();
-        setTimeout(() => { if (screenDone(s)) next(); }, 10);
+        setTimeout(() => { if (screenDone(s)) press(nx, () => { if (current() === s.id) next(); }); }, 10);
       });
       right.append(nx);
     }

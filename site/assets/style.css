@@ -277,3 +277,5 @@ button { font: inherit; color: inherit; }
 }
 .lang[hidden] { display: none; }
 .screen.leave { opacity: 0; transform: translateY(-10px); transition: opacity .2s ease, transform .2s ease; }
+.btn-primary:active:not([disabled]), .btn-primary.pressed { background: var(--cream); box-shadow: 0 6px 24px rgba(251, 243, 234, .55); transition: none; }
+.tile { min-height: 78px; }

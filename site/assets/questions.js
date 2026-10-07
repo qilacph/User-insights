@@ -157,7 +157,7 @@ window.QILA_SCREENS = [
         { id: 'weekly',      en: 'About once a week',  da: 'Cirka en gang om ugen' },
         { id: 'less',        en: 'Less often',         da: 'Sjældnere' },
       ] },
-      { field: 'bike_types', type: 'multi', shuffle: true, other: true, label: { en: 'What do you ride? · pick all', da: 'Hvad cykler du på? · vælg alle' }, options: [
+      { field: 'bike_types', type: 'multi', other: true, label: { en: 'What do you ride? · pick all', da: 'Hvad cykler du på? · vælg alle' }, options: [
         { id: 'city',   en: 'City bike',                da: 'Bycykel' },
         { id: 'ebike',  en: 'E-bike',                   da: 'Elcykel' },
         { id: 'cargo',  en: 'Cargo bike (Christiania)', da: 'Ladcykel (Christiania)' },

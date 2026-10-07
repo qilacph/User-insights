@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f0e0c">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self' https:; form-action 'none'; base-uri 'self'">
+  <title>qila — How do you ride?</title>
+  <meta name="description" content="A 2-minute, anonymous study of how people cycle in Danish cities.">
+  <meta property="og:title" content="qila — How do you ride?">
+  <meta property="og:description" content="A 2-minute, anonymous study of how people cycle in Danish cities.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://qilacph.github.io/User-insights/">
+  <meta property="og:image" content="https://qilacph.github.io/User-insights/assets/share.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="qila">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://qilacph.github.io/User-insights/assets/share.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/sky.webp" as="image">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="capsule" id="capsule">
+      <div class="bg" aria-hidden="true">
+        <div class="sky"></div>
+        <div class="shade"></div>
+        <div class="glow glow-light"></div>
+        <div class="glow glow-orange"></div>
+        <div class="edge"></div>
+        <div class="grain"></div>
+      </div>
+
+      <div class="ui">
+        <header class="top">
+          <div class="brand">
+            <svg class="star" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 0 8.4 5.6 14 7 8.4 8.4 7 14 5.6 8.4 0 7 5.6 5.6Z"/></svg>
+            <span class="logo-pill"><img src="assets/qila-cream.svg" alt="qila" width="46" height="27"></span>
+            <svg class="star" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 0 8.4 5.6 14 7 8.4 8.4 7 14 5.6 8.4 0 7 5.6 5.6Z"/></svg>
+          </div>
+          <div class="progress" id="progress" hidden>
+            <div class="progress-row"><span id="stepLabel"></span><span id="sectionLabel"></span></div>
+            <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="11" id="bar"><span id="barFill"></span></div>
+          </div>
+          <div class="lang" id="lang" role="group" aria-label="Sprog / Language">
+            <button type="button" data-lang="da">DA</button><span aria-hidden="true">·</span><button type="button" data-lang="en">EN</button>
+          </div>
+        </header>
+
+        <main class="main" id="main" tabindex="-1"></main>
+
+        <footer class="bottom" id="footer"></footer>
+      </div>
+    </div>
+  </div>
+  <div class="sr-only" aria-live="polite" id="live"></div>
+  <noscript><p class="noscript">This survey needs JavaScript. / Undersøgelsen kræver JavaScript.</p></noscript>
+
+  <script src="assets/config.js"></script>
+  <script src="assets/questions.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

@@ -85,6 +85,9 @@ Useful links while testing:
 - `?lang=da` / `?lang=en` forces a language (otherwise it follows the phone).
 - `?src=test` tags your own test runs so you can filter them out of the sheet.
 
+## Link preview image
+The picture shown when the link is shared (Messages, WhatsApp, LinkedIn, Slack…) is `site/assets/share.jpg`, 1200 × 630 px. Replace that file to change it. If you move to your own domain, update the three `qilacph.github.io` addresses in the `<head>` of `site/index.html`.
+
 ## Run locally
 ```bash
 npm install

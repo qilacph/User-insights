@@ -69,7 +69,7 @@ _multi-select · + Other text · Sometimes branch only_ · screen `q02s`
 | `short` | Short trips | Korte ture |
 | `nights` | Nights out | Byture |
 | `hurry` | When I’m in a hurry | Når jeg har travlt |
-| `dressed` | When I’ve dressed up | Når jeg har pyntet mig |
+| `dressed` | When I’ve dressed up | Når jeg har sat håret |
 | `warm` | Warm days | Varme dage |
 | `carry_after` | When I’d have to carry it around | Når jeg skal slæbe rundt på den bagefter |
 | `shared` | On a shared bike | På en delecykel |

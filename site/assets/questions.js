@@ -107,7 +107,7 @@ window.QILA_SCREENS = [
       { id: 'short',       en: 'Short trips',                      da: 'Korte ture' },
       { id: 'nights',      en: 'Nights out',                       da: 'Byture' },
       { id: 'hurry',       en: 'When I’m in a hurry',              da: 'Når jeg har travlt' },
-      { id: 'dressed',     en: 'When I’ve dressed up',             da: 'Når jeg har pyntet mig' },
+      { id: 'dressed',     en: 'When I’ve dressed up',             da: 'Når jeg har sat håret' },
       { id: 'warm',        en: 'Warm days',                        da: 'Varme dage' },
       { id: 'carry_after', en: 'When I’d have to carry it around', da: 'Når jeg skal slæbe rundt på den bagefter' },
       { id: 'shared',      en: 'On a shared bike',                 da: 'På en delecykel' },

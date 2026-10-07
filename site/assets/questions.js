@@ -43,14 +43,12 @@ const YES_K  = { en: 'You wear one', da: 'Du bruger hjelm' };
 const SOME_K = { en: 'Sometimes',    da: 'Nogle gange' };
 const NO_K   = { en: 'No helmet',    da: 'Ingen hjelm' };
 const ALL_K  = { en: 'Everyone',     da: 'Alle' };
-const OPT_K  = { en: 'Optional',     da: 'Valgfri' };
 
 const S_HELMET = { en: 'Your helmet', da: 'Din hjelm' };
 
-/* The same seven barriers, worded the same, in all three branches — so answers can be compared. */
+/* The same six barriers, worded the same, in all three branches — so answers can be compared. */
 const CORE = [
   { id: 'carry',  en: 'Annoying to carry around', da: 'Irriterende at slæbe rundt på' },
-  { id: 'store',  en: 'Nowhere to leave it',      da: 'Intet sted at lægge den' },
   { id: 'hot',    en: 'Hot or sweaty',            da: 'Varm eller svedig' },
   { id: 'fit',    en: 'Uncomfortable fit',        da: 'Sidder ubehageligt' },
   { id: 'hair',   en: 'Messes up my hair',        da: 'Ødelægger mit hår' },
@@ -96,7 +94,7 @@ window.QILA_SCREENS = [
       { id: 'safety',     en: 'Safety',                  da: 'Sikkerhed' },
       { id: 'habit',      en: 'Habit since I was a kid', da: 'Vane, siden jeg var barn' },
       { id: 'traffic',    en: 'Traffic feels risky',     da: 'Trafikken føles farlig' },
-      { id: 'close_call', en: 'A crash or close call',   da: 'Et styrt eller en nærved-ulykke' },
+      { id: 'close_call', en: 'An accident — mine or someone close to me', da: 'En ulykke – min egen eller blandt mine nærmeste' },
       { id: 'asked',      en: 'Someone asked me to',     da: 'Nogen bad mig om det' },
       { id: 'example',    en: 'To set an example',       da: 'For at være et godt eksempel' },
       { id: 'peers',      en: 'People around me do',     da: 'Folk omkring mig gør det' },
@@ -143,8 +141,9 @@ window.QILA_SCREENS = [
       { id: 'hair',       en: 'Doesn’t mess up my hair', da: 'Ødelægger ikke mit hår' },
       { id: 'looks',      en: 'Looks good on me',        da: 'Ser godt ud på mig' },
       { id: 'cheaper',    en: 'Cheaper',                 da: 'Billigere' },
-      { id: 'peers',      en: 'More people wearing one', da: 'At flere bruger hjelm' },
-      { id: 'close_call', en: 'A crash or close call',   da: 'Et styrt eller en nærved-ulykke' },
+      { id: 'stigma',     en: 'If the stigma disappeared',          da: 'Hvis stigmaet forsvandt' },
+      { id: 'asked',      en: 'If someone close to me asked me to', da: 'Hvis en af mine nærmeste bad mig om det' },
+      { id: 'close_call', en: 'An accident — mine or someone close to me', da: 'En ulykke – min egen eller blandt mine nærmeste' },
       { id: 'nothing',    en: 'Nothing would',           da: 'Intet', exclusive: true },
     ] } ] },
 
@@ -184,8 +183,8 @@ window.QILA_SCREENS = [
       { id: 'materials',   en: 'Technical materials', da: 'Tekniske materialer' },
       { id: 'brand',       en: 'Brand',               da: 'Brand' },
     ] } ] },
-  { id: 'q08', type: 'chips', step: 8, section: { en: 'Your taste', da: 'Din smag' }, kicker: OPT_K, optional: true,
-    q: { en: 'What are your favourite brands?', da: 'Hvad er dine yndlingsbrands?' },
+  { id: 'q08', type: 'chips', step: 8, section: { en: 'Your taste', da: 'Din smag' }, kicker: ALL_K, optional: true,
+    q: { en: 'Which brands do you identify with?', da: 'Hvilke brands identificerer du dig med?' },
     hint: { en: 'Choose brands you think are doing really well and that fit your style — clothes, shoes, gear, tech.',
             da: 'Vælg brands, du synes gør det rigtig godt, og som passer til din stil – tøj, sko, udstyr, tech.' },
     groups: [ { field: 'brand', kind: 'text', count: 3, optional: true, placeholder: { en: 'Brand', da: 'Brand' } } ] },
@@ -205,7 +204,7 @@ window.QILA_SCREENS = [
         { id: 'dk_other', en: 'Elsewhere in DK', da: 'Andet sted i DK' }, { id: 'abroad', en: 'Outside DK', da: 'Uden for DK' },
       ] },
     ] },
-  { id: 'q10', type: 'chips', step: 10, section: { en: 'About you', da: 'Om dig' }, kicker: OPT_K, optional: true,
+  { id: 'q10', type: 'chips', step: 10, section: { en: 'About you', da: 'Om dig' }, kicker: ALL_K, optional: true,
     q: { en: 'How do you describe your gender?', da: 'Hvordan beskriver du dit køn?' }, hint: 'pickAll',
     groups: [ { field: 'gender', type: 'multi', optional: true, other: true, otherLabel: { en: 'Self-describe', da: 'Beskriv selv' }, options: [
       { id: 'woman', en: 'Woman', da: 'Kvinde' }, { id: 'man', en: 'Man', da: 'Mand' },

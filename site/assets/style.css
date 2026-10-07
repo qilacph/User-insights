@@ -276,3 +276,4 @@ button { font: inherit; color: inherit; }
   .btn-text:hover { text-decoration: underline; text-underline-offset: 4px; }
 }
 .lang[hidden] { display: none; }
+.screen.leave { opacity: 0; transform: translateY(-10px); transition: opacity .2s ease, transform .2s ease; }

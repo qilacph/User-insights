@@ -34,8 +34,7 @@
   function pickLang() {
     const q = params.get('lang');
     if (q === 'da' || q === 'en') return q;
-    const langs = navigator.languages || [navigator.language || 'da'];
-    return langs.some((l) => /^(da|nb|nn|no|sv)\b/i.test(l)) ? 'da' : 'en';
+    return 'en'; // English is the landing language; Danish via the DA button or ?lang=da
   }
   function uuid() {
     if (crypto.randomUUID) return crypto.randomUUID();
@@ -119,7 +118,21 @@
     return Array.isArray(v) ? v.some((x) => String(x).trim()) : v != null && v !== '';
   });
   const screenDone = (s) => visibleGroups(s).every(groupDone);
-  const autoAdvance = () => false; // v2: every question screen has a Next button
+  // A screen with a single pick-one question needs no Next button: tapping the answer moves on.
+  const autoAdvance = (s) => {
+    const gs = visibleGroups(s);
+    return s.type === 'chips' && gs.length === 1 && gs[0].type === 'single' && !gs[0].other && !gs[0].kind;
+  };
+  function glide(s) { // show the orange state briefly, fade the screen out, then bring in the next one
+    state.gliding = s.id;
+    renderFooter(s);
+    setTimeout(() => {
+      if (current() !== s.id) return;
+      const scr = main.querySelector('.screen');
+      if (scr) scr.classList.add('leave');
+      setTimeout(() => { state.gliding = null; if (current() === s.id) next(); }, 200);
+    }, 300);
+  }
 
   function pick(s, g, opt, btn) {
     const f = g.field;
@@ -139,7 +152,7 @@
       state.answers[f] = v;
     }
     refresh(s);
-    if (g.type === 'single' && autoAdvance(s) && screenDone(s)) setTimeout(() => { if (current() === s.id) next(); }, 260);
+    if (g.type === 'single' && autoAdvance(s) && screenDone(s)) glide(s);
   }
   function commitOther(s, g) {
     const f = g.field;
@@ -236,7 +249,7 @@
           state.answers[g.field] = o.id;
           if (prev && prev !== o.id) clearBranch(prev);
           box.querySelectorAll('.tile').forEach((x) => x.setAttribute('aria-checked', String(x === b)));
-          setTimeout(() => { if (current() === s.id) next(); }, 450);
+          glide(s);
         });
         box.append(b);
       });
@@ -449,7 +462,7 @@
     backBtn.addEventListener('click', back);
     row.append(backBtn);
     const right = el('div', 'right');
-    if (s.type === 'tiles' || autoAdvance(s)) {
+    if (s.type === 'tiles' || (autoAdvance(s) && (!screenDone(s) || state.gliding === s.id))) {
       right.append(el('span', 'tap-hint', t('tap')));
     } else {
       if (s.optional && !hasAny(s)) {

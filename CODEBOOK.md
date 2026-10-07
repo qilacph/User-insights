@@ -25,7 +25,6 @@ _multi-select · + Other text · Yes branch only_ · screen `q02y`
 | Code | English | Dansk |
 |---|---|---|
 | `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
-| `store` | Nowhere to leave it | Intet sted at lægge den |
 | `hot` | Hot or sweaty | Varm eller svedig |
 | `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
@@ -54,7 +53,7 @@ _multi-select · + Other text · Yes branch only_ · screen `q04y`
 | `safety` | Safety | Sikkerhed |
 | `habit` | Habit since I was a kid | Vane, siden jeg var barn |
 | `traffic` | Traffic feels risky | Trafikken føles farlig |
-| `close_call` | A crash or close call | Et styrt eller en nærved-ulykke |
+| `close_call` | An accident — mine or someone close to me | En ulykke – min egen eller blandt mine nærmeste |
 | `asked` | Someone asked me to | Nogen bad mig om det |
 | `example` | To set an example | For at være et godt eksempel |
 | `peers` | People around me do | Folk omkring mig gør det |
@@ -84,7 +83,6 @@ _multi-select · + Other text · Sometimes branch only_ · screen `q03s`
 | Code | English | Dansk |
 |---|---|---|
 | `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
-| `store` | Nowhere to leave it | Intet sted at lægge den |
 | `hot` | Hot or sweaty | Varm eller svedig |
 | `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
@@ -124,7 +122,6 @@ _multi-select · + Other text · No branch only_ · screen `q03n`
 | Code | English | Dansk |
 |---|---|---|
 | `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
-| `store` | Nowhere to leave it | Intet sted at lægge den |
 | `hot` | Hot or sweaty | Varm eller svedig |
 | `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
@@ -147,8 +144,9 @@ _multi-select · + Other text · No branch only_ · screen `q04n`
 | `hair` | Doesn’t mess up my hair | Ødelægger ikke mit hår |
 | `looks` | Looks good on me | Ser godt ud på mig |
 | `cheaper` | Cheaper | Billigere |
-| `peers` | More people wearing one | At flere bruger hjelm |
-| `close_call` | A crash or close call | Et styrt eller en nærved-ulykke |
+| `stigma` | If the stigma disappeared | Hvis stigmaet forsvandt |
+| `asked` | If someone close to me asked me to | Hvis en af mine nærmeste bad mig om det |
+| `close_call` | An accident — mine or someone close to me | En ulykke – min egen eller blandt mine nærmeste |
 | `nothing` | Nothing would *(exclusive)* | Intet |
 
 ## `ride_frequency`
@@ -206,8 +204,8 @@ _multi-select · max 3 · + Other text_ · screen `q07`
 | `brand` | Brand | Brand |
 
 ## `brand`
-**What are your favourite brands?**  
-_Hvad er dine yndlingsbrands?_
+**Which brands do you identify with?**  
+_Hvilke brands identificerer du dig med?_
 
 _typed · optional_ · screen `q08`
 

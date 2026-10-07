@@ -200,7 +200,6 @@ _multi-select · max 3 · + Other text_ · screen `q07`
 | `price` | Price | Pris |
 | `function` | Function | Funktion |
 | `sustainable` | Sustainability | Bæredygtighed |
-| `materials` | Technical materials | Tekniske materialer |
 | `brand` | Brand | Brand |
 
 ## `brand`

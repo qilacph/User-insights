@@ -180,7 +180,6 @@ window.QILA_SCREENS = [
       { id: 'price',       en: 'Price',               da: 'Pris' },
       { id: 'function',    en: 'Function',            da: 'Funktion' },
       { id: 'sustainable', en: 'Sustainability',      da: 'Bæredygtighed' },
-      { id: 'materials',   en: 'Technical materials', da: 'Tekniske materialer' },
       { id: 'brand',       en: 'Brand',               da: 'Brand' },
     ] } ] },
   { id: 'q08', type: 'chips', step: 8, section: { en: 'Your taste', da: 'Din smag' }, kicker: ALL_K, optional: true,

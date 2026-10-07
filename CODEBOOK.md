@@ -232,8 +232,8 @@ _single choice_ · screen `q09`
 | `na` | Rather not say | Vil helst ikke sige |
 
 ## `city`
-**A little about you — Where you ride most · pick one**  
-_Lidt om dig — Hvor du cykler mest · vælg én_
+**A little about you — Where do you live? · pick one**  
+_Lidt om dig — Hvor bor du? · vælg én_
 
 _single choice_ · screen `q09`
 

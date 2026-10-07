@@ -198,7 +198,7 @@ window.QILA_SCREENS = [
         { id: '46_60', en: '46–60', da: '46–60' }, { id: '60p', en: 'Over 60', da: 'Over 60' },
         { id: 'na', en: 'Rather not say', da: 'Vil helst ikke sige' },
       ] },
-      { field: 'city', type: 'single', label: { en: 'Where you ride most · pick one', da: 'Hvor du cykler mest · vælg én' }, options: [
+      { field: 'city', type: 'single', label: { en: 'Where do you live? · pick one', da: 'Hvor bor du? · vælg én' }, options: [
         { id: 'cph', en: 'Copenhagen', da: 'København' }, { id: 'frb', en: 'Frederiksberg', da: 'Frederiksberg' },
         { id: 'aar', en: 'Aarhus', da: 'Aarhus' }, { id: 'ode', en: 'Odense', da: 'Odense' }, { id: 'aal', en: 'Aalborg', da: 'Aalborg' },
         { id: 'dk_other', en: 'Elsewhere in DK', da: 'Andet sted i DK' }, { id: 'abroad', en: 'Outside DK', da: 'Uden for DK' },

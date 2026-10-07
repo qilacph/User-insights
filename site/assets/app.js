@@ -50,9 +50,26 @@
 
   /* ---------- flow ---------- */
   const current = () => state.path[state.path.length - 1];
+  const groupOf = (field) => { for (const s of SCREENS) for (const g of s.groups || []) if (g.field === field) return g; return null; };
+  // what the person really picked in a multi-select (ignores "Nothing…" and an empty Other)
+  function picked(field) {
+    const g = groupOf(field);
+    const v = state.answers[field];
+    const exclusive = g ? g.options.filter((o) => o.exclusive).map((o) => o.id) : [];
+    return (Array.isArray(v) ? v : []).filter((x) => !exclusive.includes(x) && (x !== 'other' || !!otherText(field)));
+  }
+  function fromOptions(g) {
+    const ids = picked(g.from);
+    const opts = orderFor(groupOf(g.from)).filter((o) => ids.includes(o.id));
+    if (ids.includes('other')) opts.push({ id: 'other', en: otherText(g.from), da: otherText(g.from) });
+    return opts;
+  }
   function flow() {
     const branch = state.answers.helmet_use || 'yes';
-    return SCREENS.filter((s) => !s.branch || s.branch === branch).map((s) => s.id);
+    return SCREENS
+      .filter((s) => !s.branch || s.branch === branch)
+      .filter((s) => !s.needs || picked(s.needs.field).length >= s.needs.min)
+      .map((s) => s.id);
   }
   const showIfOk = (g) => !g.showIf || g.showIf.in.includes(state.answers[g.showIf.field]);
   const visibleGroups = (s) => (s.groups || []).filter(showIfOk);
@@ -91,20 +108,18 @@
   }
   const otherText = (f) => (state.other[f] || '').trim();
   function groupDone(g) {
-    if (g.optional) return true;
+    if (g.optional || g.kind === 'text') return true;
     const v = state.answers[g.field];
+    if (g.kind === 'slider') return v != null;
     if (g.type === 'single') return !!v && (v !== 'other' || !!otherText(g.field));
     return Array.isArray(v) && v.some((x) => x !== 'other' || !!otherText(g.field));
   }
   const hasAny = (s) => visibleGroups(s).some((g) => {
     const v = state.answers[g.field];
-    return Array.isArray(v) ? v.length > 0 : !!v;
+    return Array.isArray(v) ? v.some((x) => String(x).trim()) : v != null && v !== '';
   });
   const screenDone = (s) => visibleGroups(s).every(groupDone);
-  const autoAdvance = (s) => {
-    const gs = visibleGroups(s);
-    return s.type === 'chips' && gs.length === 1 && gs[0].type === 'single' && !state.editing && state.answers[gs[0].field] !== 'other';
-  };
+  const autoAdvance = () => false; // v2: every question screen has a Next button
 
   function pick(s, g, opt, btn) {
     const f = g.field;
@@ -190,9 +205,11 @@
     wrap.append(el('p', 'kicker', t(s.kicker)));
     const hero = heading(t(s.hero), 'hero');
     wrap.append(hero, el('p', 'lead', t(s.body)));
-    const facts = el('div', 'facts');
-    s.facts.forEach((f) => facts.append(el('span', 'fact', t(f))));
-    wrap.append(facts);
+    if (s.facts && s.facts.length) {
+      const facts = el('div', 'facts');
+      s.facts.forEach((f) => facts.append(el('span', 'fact', t(f))));
+      wrap.append(facts);
+    }
     requestAnimationFrame(() => fitText(hero, 76, 44));
   }
 
@@ -219,7 +236,7 @@
           state.answers[g.field] = o.id;
           if (prev && prev !== o.id) clearBranch(prev);
           box.querySelectorAll('.tile').forEach((x) => x.setAttribute('aria-checked', String(x === b)));
-          setTimeout(() => { if (current() === s.id) next(); }, 280);
+          setTimeout(() => { if (current() === s.id) next(); }, 450);
         });
         box.append(b);
       });
@@ -242,10 +259,14 @@
     box.hidden = !showIfOk(g);
     let labelId = 'q-title';
     if (g.label) { labelId = `lbl-${g.field}`; const l = el('p', 'group-label', t(g.label)); l.id = labelId; box.append(l); }
+    if (g.kind === 'slider') { renderSlider(s, g, box); return box; }
+    if (g.kind === 'text') { renderText(s, g, box); return box; }
+    const options = g.from ? fromOptions(g) : orderFor(g);
+    if (g.from && !options.some((o) => o.id === state.answers[g.field])) delete state.answers[g.field];
     const chips = el('div', 'chips');
     chips.setAttribute('role', g.type === 'single' ? 'radiogroup' : 'group');
     chips.setAttribute('aria-labelledby', labelId);
-    orderFor(g).forEach((o) => {
+    options.forEach((o) => {
       const b = el('button', 'chip', t(o));
       b.type = 'button';
       b.dataset.id = o.id;
@@ -257,6 +278,68 @@
     box.append(chips);
     paintGroup(box, g);
     return box;
+  }
+
+  function renderSlider(s, g, box) {
+    const f = g.field;
+    const cur = state.answers[f];
+    const val = el('p', 'slider-value');
+    val.setAttribute('aria-hidden', 'true');
+    const inp = el('input', 'slider');
+    Object.assign(inp, { type: 'range', min: 0, max: 100, step: 5 });
+    inp.value = cur != null && cur !== 'not_sure' ? cur : g.start;
+    inp.setAttribute('aria-labelledby', 'q-title');
+    const scale = el('div', 'slider-scale');
+    g.scale.forEach((x) => scale.append(el('span', null, t(x))));
+    const unsure = el('button', 'chip', t(g.unsure));
+    unsure.type = 'button';
+    unsure.setAttribute('role', 'checkbox');
+    const paint = () => {
+      const v = state.answers[f];
+      const n = Number(inp.value);
+      inp.style.setProperty('--p', `${n}%`);
+      inp.setAttribute('aria-valuetext', `${n}%`);
+      val.textContent = v === 'not_sure' ? '?' : `${n}%`;
+      box.classList.toggle('untouched', v == null);
+      box.classList.toggle('unsure', v === 'not_sure');
+      unsure.setAttribute('aria-checked', String(v === 'not_sure'));
+    };
+    const set = () => { state.answers[f] = String(inp.value); paint(); renderFooter(s); };
+    ['input', 'change', 'pointerup', 'keyup'].forEach((ev) => inp.addEventListener(ev, set));
+    unsure.addEventListener('click', () => {
+      if (state.answers[f] === 'not_sure') delete state.answers[f]; else state.answers[f] = 'not_sure';
+      paint(); renderFooter(s);
+    });
+    const chips = el('div', 'chips');
+    chips.append(unsure);
+    box.classList.add('slider-group');
+    box.append(val, inp, scale, chips);
+    paint();
+  }
+
+  function renderText(s, g, box) {
+    const f = g.field;
+    const vals = Array.isArray(state.answers[f]) ? state.answers[f] : [];
+    state.answers[f] = vals;
+    const list = el('div', 'fields');
+    const add = el('button', 'chip add', `+  ${t('addAnother')}`);
+    add.type = 'button';
+    const addField = (focus) => {
+      const i = list.children.length;
+      const inp = el('input', 'field');
+      Object.assign(inp, { type: 'text', maxLength: 40, autocomplete: 'off', placeholder: t(g.placeholder), enterKeyHint: 'done' });
+      inp.setAttribute('aria-label', `${t(g.placeholder)} ${i + 1}`);
+      inp.value = vals[i] || '';
+      inp.addEventListener('input', () => { vals[i] = inp.value; renderFooter(s); });
+      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); inp.blur(); } });
+      list.append(inp);
+      add.hidden = list.children.length >= g.count;
+      if (focus) { inp.focus(); setTimeout(() => add.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 250); }
+    };
+    const shown = Math.min(g.count, Math.max(1, vals.reduce((n, v, i) => (String(v || '').trim() ? i + 1 : n), 0)));
+    for (let i = 0; i < shown; i++) addField(false);
+    add.addEventListener('click', () => addField(true));
+    box.append(list, add);
   }
 
   function renderOther(s, g) {
@@ -318,6 +401,7 @@
   }
 
   function paintGroup(box, g) {
+    if (g.kind) return; // slider and text fields paint themselves
     const v = state.answers[g.field];
     box.querySelectorAll('.chip').forEach((c) => {
       const isOther = c.classList.contains('other');
@@ -404,7 +488,7 @@
     if (isMinor()) { footer.append(el('p', 'msg ok', t(s.under16)), micro()); return; }
     const W = CFG.WAITLIST || {};
     const box = el('div', 'wl');
-    box.append(el('p', 'msg', t(s.ask)));
+    if (s.ask) box.append(el('p', 'msg', t(s.ask)));
     const join = el('button', 'btn btn-primary btn-wide');
     join.type = 'button';
     join.append(el('span', null, t(s.join)), el('span', null, W.endpoint ? '→' : '↗︎'));
@@ -477,12 +561,26 @@
       (byId[sid].groups || []).forEach((g) => {
         if (!showIfOk(g)) return;
         const v = state.answers[g.field];
+        if (g.kind === 'text') {
+          (Array.isArray(v) ? v : []).map((x) => String(x || '').trim()).filter(Boolean).slice(0, g.count)
+            .forEach((x, i) => { fields[`${g.field}_${i + 1}_other`] = x.slice(0, 40); });
+          return;
+        }
+        if (g.from && !picked(g.from).includes(v)) return;
         if (v == null || (Array.isArray(v) && !v.length)) return;
         fields[g.field] = Array.isArray(v) ? v.join(',') : v;
         const usesOther = Array.isArray(v) ? v.includes('other') : v === 'other';
         if (g.other && usesOther && otherText(g.field)) fields[`${g.field}_other`] = otherText(g.field).slice(0, 80);
       });
     });
+    // "which one matters most": if they picked exactly one thing, that one is the answer
+    const branch = state.answers.helmet_use;
+    SCREENS.filter((x) => x.needs && x.branch === branch).forEach((x) => x.groups.forEach((g) => {
+      const src = byId[seq.find((sid) => (byId[sid].groups || []).some((q) => q.field === g.from))];
+      const reached = src && seq.indexOf(src.id) < upTo;
+      const only = picked(g.from);
+      if (g.from && reached && !fields[g.field] && only.length === 1) fields[g.field] = only[0];
+    }));
     const times = {};
     Object.entries(state.times).forEach(([k, ms]) => { times[k] = Math.round(ms / 100) / 10; });
     const start = state.started || new Date();
@@ -552,6 +650,15 @@
     const avail = node.parentElement.clientWidth;
     while (size > min && node.scrollWidth > avail + 1) { size -= 2; node.style.fontSize = `${size}px`; }
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' || e.defaultPrevented) return;
+    const a = document.activeElement;
+    if (a && /^(INPUT|BUTTON|TEXTAREA|SELECT)$/.test(a.tagName) && a.type !== 'range') return;
+    if (a && a.classList && a.classList.contains('chip')) return;
+    const nx = footer.querySelector('.actions .btn-primary:not([disabled])');
+    if (nx) { e.preventDefault(); nx.click(); }
+  });
 
   $('#lang').addEventListener('click', (e) => {
     const b = e.target.closest('button[data-lang]');

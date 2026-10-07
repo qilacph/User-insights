@@ -2,9 +2,11 @@
 
 Generated from `site/assets/questions.js`. Each field is a column in the **Responses** sheet; multi-select cells hold comma-separated codes. `<field>_other` holds the free text typed under "Other".
 
+Version 2 of the questionnaire (`version` = v2-2026-10). Rows with `version` = v1-2026-10 are test responses from the first version and use older columns.
+
 ## `helmet_use`
-**Do you wear a helmet when you cycle?**  
-_Bruger du hjelm, når du cykler?_
+**Do you wear a bike helmet?**  
+_Bruger du cykelhjelm?_
 
 _single choice_ · screen `q01`
 
@@ -14,70 +16,64 @@ _single choice_ · screen `q01`
 | `sometimes` | SOMETIMES | NOGLE GANGE |
 | `no` | NO | NEJ |
 
-## `helmet_annoyances`
-**What bugs you about your helmet?**  
-_Hvad irriterer dig ved din hjelm?_
+## `helmet_issues`
+**What issues do you experience?**  
+_Hvilke problemer oplever du?_
 
 _multi-select · + Other text · Yes branch only_ · screen `q02y`
 
 | Code | English | Dansk |
 |---|---|---|
-| `nothing` | Nothing, it’s fine *(exclusive)* | Intet, den er fin |
-| `carrying` | Carrying it around | At slæbe den rundt |
-| `storing` | Where to put it when I arrive | Hvor den skal være, når jeg er fremme |
+| `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
+| `store` | Nowhere to leave it | Intet sted at lægge den |
 | `hot` | Hot or sweaty | Varm eller svedig |
 | `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
-| `style` | Doesn’t match my style | Passer ikke til min stil |
-| `bulky` | Bulky in my bag | Fylder i tasken |
-| `theft` | Worried it gets stolen | Bange for, at den bliver stjålet |
+| `looks` | Don’t like how it looks | Kan ikke lide, hvordan den ser ud |
+| `forget` | I forget it | Jeg glemmer den |
+| `nothing` | Nothing, it’s fine *(exclusive)* | Ingen, den er fin |
+
+## `top_issue`
+**Which one bothers you most?**  
+_Hvad generer dig mest?_
+
+_single choice · Yes branch only_ · screen `q03y`
+
+| Code | English | Dansk |
+|---|---|---|
+| (same codes as `helmet_issues`) | The one option the person ranks highest among those they picked there. Filled in automatically when they picked only one. | Samme koder som `helmet_issues` |
 
 ## `wear_reasons`
 **What makes you wear it?**  
-_Hvorfor bruger du den?_
+_Hvad får dig til at bruge den?_
 
-_multi-select · + Other text · Yes branch only_ · screen `q03y`
+_multi-select · + Other text · Yes branch only_ · screen `q04y`
 
 | Code | English | Dansk |
 |---|---|---|
 | `safety` | Safety | Sikkerhed |
-| `habit` | Habit since I was a kid | Vane siden jeg var barn |
+| `habit` | Habit since I was a kid | Vane, siden jeg var barn |
 | `traffic` | Traffic feels risky | Trafikken føles farlig |
-| `speed` | I ride fast / e-bike | Jeg kører stærkt / elcykel |
 | `close_call` | A crash or close call | Et styrt eller en nærved-ulykke |
-| `asked` | Someone asked me to | Nogen har bedt mig om det |
-| `role_model` | Role model for kids | Rollemodel for børn |
-| `norm` | Everyone around me does | Alle omkring mig gør det |
-
-## `helmet_on_arrival`
-**Where does your helmet go when you arrive?**  
-_Hvor ender din hjelm, når du er fremme?_
-
-_single choice · + Other text · Yes branch only_ · screen `q04y`
-
-| Code | English | Dansk |
-|---|---|---|
-| `bike` | Stays on the bike | Bliver på cyklen |
-| `bag` | In my bag | I tasken |
-| `hand` | I carry it in my hand | Jeg bærer den i hånden |
-| `locker` | Locker, desk or hook | Skab, skrivebord eller knage |
+| `asked` | Someone asked me to | Nogen bad mig om det |
+| `example` | To set an example | For at være et godt eksempel |
+| `peers` | People around me do | Folk omkring mig gør det |
 
 ## `skip_situations`
 **When do you skip it?**  
-_Hvornår dropper du den?_
+_Hvornår springer du den over?_
 
 _multi-select · + Other text · Sometimes branch only_ · screen `q02s`
 
 | Code | English | Dansk |
 |---|---|---|
 | `short` | Short trips | Korte ture |
-| `evening` | Evenings & nights out | Aftener og byture |
+| `nights` | Nights out | Byture |
 | `hurry` | When I’m in a hurry | Når jeg har travlt |
-| `dressed` | When I’ve dressed up | Når jeg er klædt pænt på |
-| `weather` | Good weather | Godt vejr |
-| `not_home` | Not going straight home | Når jeg ikke skal direkte hjem |
-| `shared` | Shared or rental bike | Delecykel eller lejecykel |
-| `forget` | I simply forget | Jeg glemmer den bare |
+| `dressed` | When I’ve dressed up | Når jeg har pyntet mig |
+| `warm` | Warm days | Varme dage |
+| `carry_after` | When I’d have to carry it around | Når jeg skal slæbe rundt på den bagefter |
+| `shared` | On a shared bike | På en delecykel |
 
 ## `skip_reasons`
 **What gets in the way?**  
@@ -87,26 +83,36 @@ _multi-select · + Other text · Sometimes branch only_ · screen `q03s`
 
 | Code | English | Dansk |
 |---|---|---|
-| `carrying` | Carrying it around | At slæbe den rundt |
-| `storing` | Nowhere to put it | Intet sted at gøre af den |
-| `hot` | Uncomfortable or hot | Ubehagelig eller varm |
+| `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
+| `store` | Nowhere to leave it | Intet sted at lægge den |
+| `hot` | Hot or sweaty | Varm eller svedig |
+| `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
-| `style` | Doesn’t match my outfit | Passer ikke til mit tøj |
-| `friends` | Friends don’t wear one | Mine venner bruger ikke hjelm |
-| `low_risk` | I don’t feel at risk | Jeg føler mig ikke i fare |
+| `looks` | Don’t like how it looks | Kan ikke lide, hvordan den ser ud |
+| `forget` | I forget it | Jeg glemmer den |
+| `friends` | My friends don’t wear one | Mine venner bruger ikke hjelm |
+| `risk` | I don’t feel at risk | Jeg føler mig ikke i fare |
 
-*`helmet_on_arrival` is also asked in the **Sometimes** branch (q04s).*
+## `top_reason`
+**Which one matters most?**  
+_Hvad betyder mest?_
+
+_single choice · Sometimes branch only_ · screen `q04s`
+
+| Code | English | Dansk |
+|---|---|---|
+| (same codes as `skip_reasons`) | The one option the person ranks highest among those they picked there. Filled in automatically when they picked only one. | Samme koder som `skip_reasons` |
 
 ## `helmet_ownership`
 **Do you own a helmet?**  
-_Har du en hjelm?_
+_Ejer du en hjelm?_
 
 _single choice · No branch only_ · screen `q02n`
 
 | Code | English | Dansk |
 |---|---|---|
 | `at_home` | Yes, but it stays at home | Ja, men den bliver derhjemme |
-| `used_to` | I used to | Det har jeg haft |
+| `used_to` | I used to | Det har jeg gjort |
 | `never` | No, never have | Nej, aldrig |
 
 ## `no_helmet_reasons`
@@ -117,15 +123,16 @@ _multi-select · + Other text · No branch only_ · screen `q03n`
 
 | Code | English | Dansk |
 |---|---|---|
-| `carrying` | Carrying it around | At slæbe den rundt |
-| `storing` | Nowhere to put it | Intet sted at gøre af den |
-| `hot` | Uncomfortable or hot | Ubehagelig eller varm |
+| `carry` | Annoying to carry around | Irriterende at slæbe rundt på |
+| `store` | Nowhere to leave it | Intet sted at lægge den |
+| `hot` | Hot or sweaty | Varm eller svedig |
+| `fit` | Uncomfortable fit | Sidder ubehageligt |
 | `hair` | Messes up my hair | Ødelægger mit hår |
-| `style` | Doesn’t match my style | Passer ikke til min stil |
-| `not_found` | Never found one I like | Har aldrig fundet en, jeg kan lide |
+| `looks` | Don’t like how it looks | Kan ikke lide, hvordan den ser ud |
+| `forget` | I forget it | Jeg glemmer den |
+| `friends` | My friends don’t wear one | Mine venner bruger ikke hjelm |
+| `risk` | I don’t feel at risk | Jeg føler mig ikke i fare |
 | `price` | Too expensive | For dyr |
-| `friends` | Friends don’t wear one | Mine venner bruger ikke hjelm |
-| `low_risk` | I don’t feel at risk | Jeg føler mig ikke i fare |
 
 ## `would_consider`
 **What could change your mind?**  
@@ -135,19 +142,18 @@ _multi-select · + Other text · No branch only_ · screen `q04n`
 
 | Code | English | Dansk |
 |---|---|---|
-| `easy_carry` | Easy to carry | Nem at have med |
+| `carry` | Easier to carry | Nemmere at have med |
 | `comfort` | More comfortable | Mere behagelig |
+| `hair` | Doesn’t mess up my hair | Ødelægger ikke mit hår |
 | `looks` | Looks good on me | Ser godt ud på mig |
-| `hair` | Doesn’t ruin my hair | Ødelægger ikke mit hår |
 | `cheaper` | Cheaper | Billigere |
-| `friends` | Friends wearing one | At mine venner bruger en |
-| `close_call` | A close call | En nærved-ulykke |
-| `law` | A helmet law | En lov om hjelm |
-| `nothing` | Nothing would *(exclusive)* | Intet ville |
+| `peers` | More people wearing one | At flere bruger hjelm |
+| `close_call` | A crash or close call | Et styrt eller en nærved-ulykke |
+| `nothing` | Nothing would *(exclusive)* | Intet |
 
 ## `ride_frequency`
-**How do you ride? — How often · pick one**  
-_Hvordan cykler du? — Hvor tit · vælg én_
+**How often do you ride? — Pick one**  
+_Hvor tit cykler du? — Vælg én_
 
 _single choice_ · screen `q05`
 
@@ -155,12 +161,12 @@ _single choice_ · screen `q05`
 |---|---|---|
 | `daily` | Every day | Hver dag |
 | `weekly_plus` | A few times a week | Et par gange om ugen |
-| `weekly` | Weekly | Ugentligt |
+| `weekly` | About once a week | Cirka en gang om ugen |
 | `less` | Less often | Sjældnere |
 
 ## `bike_types`
-**How do you ride? — On what · pick all**  
-_Hvordan cykler du? — På hvad · vælg alle_
+**How often do you ride? — What do you ride? · pick all**  
+_Hvor tit cykler du? — Hvad cykler du på? · vælg alle_
 
 _multi-select · + Other text_ · screen `q05`
 
@@ -168,77 +174,25 @@ _multi-select · + Other text_ · screen `q05`
 |---|---|---|
 | `city` | City bike | Bycykel |
 | `ebike` | E-bike | Elcykel |
-| `road` | Road or gravel | Racer eller gravel |
-| `cargo` | Cargo bike | Ladcykel |
+| `cargo` | Cargo bike (Christiania) | Ladcykel (Christiania) |
 | `shared` | Shared bike | Delecykel |
-| `speed` | Speed pedelec | Speed pedelec |
 
-## `destinations`
-**Where does your bike take you? — Most weeks · pick all**  
-_Hvor tager cyklen dig hen? — De fleste uger · vælg alle_
-
-_multi-select · + Other text_ · screen `q06`
-
-| Code | English | Dansk |
-|---|---|---|
-| `work` | Work | Arbejde |
-| `study` | School or uni | Skole eller uni |
-| `station` | Station / metro | Station / metro |
-| `errands` | Errands | Ærinder |
-| `social` | Friends & family | Venner og familie |
-| `sport` | Gym & sport | Træning og sport |
-| `nights` | Nights out | Byture |
-| `kids` | Kids’ daycare | Institution |
-| `leisure` | Just riding | Bare en tur |
-
-## `trip_length`
-**Where does your bike take you? — Usual trip · pick one**  
-_Hvor tager cyklen dig hen? — Typisk tur · vælg én_
-
-_single choice_ · screen `q06`
-
-| Code | English | Dansk |
-|---|---|---|
-| `lt2` | Under 2 km | Under 2 km |
-| `2_5` | 2–5 km | 2–5 km |
-| `5_10` | 5–10 km | 5–10 km |
-| `gt10` | 10 km + | 10 km + |
-
-## `carried_items`
-**What’s usually with you?**  
-_Hvad har du typisk med?_
-
-_multi-select · + Other text_ · screen `q07`
-
-| Code | English | Dansk |
-|---|---|---|
-| `backpack` | Backpack | Rygsæk |
-| `tote` | Tote bag | Mulepose |
-| `sling` | Sling / crossbody | Crossbody-taske |
-| `pannier` | Pannier | Cykeltaske |
-| `laptop` | Laptop | Computer |
-| `gym` | Gym bag | Sportstaske |
-| `nothing` | Nothing, hands free *(exclusive)* | Ingenting |
-
-## `friends_helmet_share`
+## `friends_helmet_pct`
 **How many of your friends wear a helmet?**  
 _Hvor mange af dine venner bruger hjelm?_
 
-_single choice_ · screen `q08`
+_slider_ · screen `q06`
 
 | Code | English | Dansk |
 |---|---|---|
-| `almost_all` | Almost all | Næsten alle |
-| `half` | About half | Cirka halvdelen |
-| `few` | A few | Nogle få |
-| `none` | None | Ingen |
-| `unknown` | No idea | Ved ikke |
+| `0`–`100` | Percentage, in steps of 5 | Procent, i trin på 5 |
+| `not_sure` | Not sure | Ved ikke |
 
 ## `values_top3`
-**What matters most in things you use every day?**  
-_Hvad betyder mest i ting, du bruger hver dag?_
+**What is important to you when buying apparel?**  
+_Hvad er vigtigt for dig, når du køber tøj?_
 
-_multi-select · max 3 · + Other text_ · screen `q09`
+_multi-select · max 3 · + Other text_ · screen `q07`
 
 | Code | English | Dansk |
 |---|---|---|
@@ -246,35 +200,26 @@ _multi-select · max 3 · + Other text_ · screen `q09`
 | `quality` | Quality | Kvalitet |
 | `comfort` | Comfort | Komfort |
 | `price` | Price | Pris |
-| `practical` | Practical | Praktisk |
-| `sustainable` | Sustainable | Bæredygtig |
-| `tech` | Tech | Teknologi |
+| `function` | Function | Funktion |
+| `sustainable` | Sustainability | Bæredygtighed |
+| `materials` | Technical materials | Tekniske materialer |
 | `brand` | Brand | Brand |
 
-## `brand_affinity`
-**Which brands feel like you?**  
-_Hvilke brands føles som dig?_
+## `brand`
+**What are your favourite brands?**  
+_Hvad er dine yndlingsbrands?_
 
-_multi-select · optional · + Other text_ · screen `q10`
+_typed · optional_ · screen `q08`
 
 | Code | English | Dansk |
 |---|---|---|
-| `apple` | Apple | Apple |
-| `nothing` | Nothing | Nothing |
-| `rains` | Rains | Rains |
-| `arcteryx` | Arc’teryx | Arc’teryx |
-| `salomon` | Salomon | Salomon |
-| `patagonia` | Patagonia | Patagonia |
-| `norse` | Norse Projects | Norse Projects |
-| `ganni` | Ganni | Ganni |
-| `veja` | Veja | Veja |
-| `muji` | Muji | Muji |
+| free text | Up to 3 typed answers, saved in the columns `brand_1_other`, `brand_2_other`, `brand_3_other` | Op til 3 skrevne svar |
 
 ## `age_band`
 **A little about you — Age · pick one**  
 _Lidt om dig — Alder · vælg én_
 
-_single choice_ · screen `q11`
+_single choice_ · screen `q09`
 
 | Code | English | Dansk |
 |---|---|---|
@@ -285,14 +230,14 @@ _single choice_ · screen `q11`
 | `31_35` | 31–35 | 31–35 |
 | `36_45` | 36–45 | 36–45 |
 | `46_60` | 46–60 | 46–60 |
-| `60p` | 60 + | 60 + |
+| `60p` | Over 60 | Over 60 |
 | `na` | Rather not say | Vil helst ikke sige |
 
 ## `city`
 **A little about you — Where you ride most · pick one**  
 _Lidt om dig — Hvor du cykler mest · vælg én_
 
-_single choice_ · screen `q11`
+_single choice_ · screen `q09`
 
 | Code | English | Dansk |
 |---|---|---|
@@ -308,48 +253,26 @@ _single choice_ · screen `q11`
 **How do you describe your gender?**  
 _Hvordan beskriver du dit køn?_
 
-_multi-select · optional · + Other text_ · screen `q12`
+_multi-select · optional · + Other text_ · screen `q10`
 
 | Code | English | Dansk |
 |---|---|---|
 | `woman` | Woman | Kvinde |
 | `man` | Man | Mand |
 | `nonbinary` | Non-binary | Nonbinær |
-| `genderqueer` | Genderqueer | Genderqueer |
-| `genderfluid` | Genderfluid | Kønsflydende |
-| `agender` | Agender | Agender |
-| `trans_woman` | Trans woman | Transkvinde |
-| `trans_man` | Trans man | Transmand |
-| `two_spirit` | Two-spirit | Two-spirit |
-| `questioning` | Questioning | Er i tvivl |
 | `rather_not` | Rather not say *(exclusive)* | Vil helst ikke sige |
 
 ## `kit_interest`
-**If one piece of kit solved what you picked, would you use it? — Pick one**  
-_Hvis ét produkt løste det, du har valgt, ville du så bruge det? — Vælg én_
+**If there was a solution that solved all your problems, would you want to try it?**  
+_Hvis der fandtes en løsning, der løste alle dine problemer, ville du så prøve den?_
 
-_single choice_ · screen `q13`
+_single choice_ · screen `q11`
 
 | Code | English | Dansk |
 |---|---|---|
 | `yes` | Yes | Ja |
 | `maybe` | Maybe | Måske |
 | `no` | No | Nej |
-
-## `fair_price`
-**If one piece of kit solved what you picked, would you use it? — A fair price?**  
-_Hvis ét produkt løste det, du har valgt, ville du så bruge det? — Hvad er en fair pris?_
-
-_single choice · only if kit_interest ∈ yes/maybe_ · screen `q13`
-
-| Code | English | Dansk |
-|---|---|---|
-| `lt500` | Under 500 kr | Under 500 kr. |
-| `500_799` | 500–799 kr | 500–799 kr. |
-| `800_1199` | 800–1,199 kr | 800–1.199 kr. |
-| `1200_1599` | 1,200–1,599 kr | 1.200–1.599 kr. |
-| `1600p` | 1,600 kr + | 1.600 kr. + |
-| `unsure` | Not sure | Ved ikke |
 
 ## Meta columns
 | Column | Meaning |

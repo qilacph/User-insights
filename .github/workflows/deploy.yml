@@ -1,4 +1,7 @@
-name: Deploy survey to GitHub Pages
+name: Publish survey
+
+# Builds the site (plus QR codes for the live address) and publishes it to the gh-pages branch.
+# GitHub Pages serves that branch: Settings → Pages → Source: Deploy from a branch → gh-pages / (root).
 
 on:
   push:
@@ -6,33 +9,31 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: publish
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - id: pages
-        uses: actions/configure-pages@v5
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Generate QR codes for the live URL
-        run: node scripts/make-qr.mjs "${{ vars.SURVEY_URL || format('{0}/', steps.pages.outputs.base_url) }}"
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Generate QR codes for the live address
+        run: node scripts/make-qr.mjs "${{ vars.SURVEY_URL || format('https://{0}.github.io/{1}/', github.repository_owner, github.event.repository.name) }}"
+      - name: Publish to gh-pages
+        working-directory: site
+        run: |
+          touch .nojekyll
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Publish ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" gh-pages

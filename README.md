@@ -31,8 +31,8 @@ CODEBOOK.md           every sheet column and answer code with its label
    git remote add origin https://github.com/<owner>/<repo>.git
    git push -u origin main
    ```
-3. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. Open the **Actions** tab. When the "Deploy survey" run is green, the survey is live at
+3. In the repo: **Settings → Pages → Build and deployment → Source: Deploy from a branch → `gh-pages` / (root)**.
+4. Every push to `main` runs the "Publish survey" action, which rebuilds the `gh-pages` branch. About a minute later the survey is live at
    `https://<owner>.github.io/<repo>/`.
 
 > **Own domain** (e.g. `survey.qila.dk`): add it under Settings → Pages → Custom domain, then add a repository
@@ -93,7 +93,8 @@ npm run qr -- https://<owner>.github.io/<repo>/   # generate site/qr/ locally
 ```
 
 ## What's been tested
-- The Yes, Sometimes and No branches end to end on iPhone-size (390×844) and small (375×667) screens, in Danish and English. No console errors.
+- Version 2 of the questionnaire (11 steps): the Yes, Sometimes and No branches end to end on a phone (390×844), a small phone (360×640), a tablet (834×1112) and a laptop (1440×900), in Danish and English. No console errors.
+- The slider, the typed brands, and the "which one bothers you most" screen (skipped when only one issue was picked; the answer is then filled in automatically).
 - Payloads reach the Sheet endpoint. Waitlist posts carry no survey ID, and the form shows an error when the waitlist script says `ok: false`. The waitlist was tested against a mock, so no test sign-ups went onto the real list.
 - `Code.gs` against a mock of Google Sheets:
   - Duplicates are ignored, and a partial row is replaced by the complete one.

@@ -27,6 +27,6 @@ window.QILA_CONFIG = {
     url: 'https://qila.dk/waitlist?src=survey', // only used if endpoint is emptied
   },
 
-  VERSION: 'v1-2026-10',
+  VERSION: 'v2-2026-10',
   MIN_AGE_FOR_WAITLIST: 16,               // under-16s finish without the email form
 };

@@ -184,9 +184,9 @@ window.QILA_SCREENS = [
     ] } ] },
   { id: 'q08', type: 'chips', step: 8, section: { en: 'Your taste', da: 'Din smag' }, kicker: ALL_K, optional: true,
     q: { en: 'Which brands do you identify with?', da: 'Hvilke brands identificerer du dig med?' },
-    hint: { en: 'Choose brands you think are doing really well and that fit your style — clothes, shoes, gear, tech.',
-            da: 'Vælg brands, du synes gør det rigtig godt, og som passer til din stil – tøj, sko, udstyr, tech.' },
-    groups: [ { field: 'brand', kind: 'text', count: 3, optional: true, placeholder: { en: 'Brand', da: 'Brand' } } ] },
+    hint: { en: 'Any brands, not helmets. Ones you think are doing really well and that fit your style: clothes, shoes, gear, tech.',
+            da: 'Alle slags brands, ikke hjelme. Nogle, du synes gør det rigtig godt, og som passer til din stil: tøj, sko, udstyr, tech.' },
+    groups: [ { field: 'brand', kind: 'text', count: 3, optional: true, placeholder: { en: 'Any brand you like', da: 'Et brand, du kan lide' } } ] },
   { id: 'q09', type: 'chips', step: 9, section: { en: 'About you', da: 'Om dig' }, kicker: ALL_K,
     q: { en: 'A little about you', da: 'Lidt om dig' },
     groups: [
